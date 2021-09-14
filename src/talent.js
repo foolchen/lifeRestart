@@ -1,6 +1,6 @@
-import { clone, weightRandom } from './functions/util.js';
-import { checkCondition, extractMaxTriggers } from './functions/condition.js';
 import { getRate } from './functions/addition.js';
+import { checkCondition, extractMaxTriggers } from './functions/condition.js';
+import { clone, weightRandom } from './functions/util.js';
 
 class Talent {
     constructor() {}
@@ -92,8 +92,8 @@ class Talent {
             if(!talentList[grade]) talentList[grade] = [{ grade, name, description, id }];
             else talentList[grade].push({ grade, name, description, id });
         }
-
-        return new Array(10)
+        
+        return this.addLegendTalents(new Array(10)
             .fill(1).map((v, i)=>{
                 if(!i && include) return include;
                 let grade = randomGrade();
@@ -102,7 +102,7 @@ class Talent {
 
                 const random = Math.floor(Math.random()*length) % length;
                 return talentList[grade].splice(random,1)[0];
-            });
+            }),talentList);
     }
 
     allocationAddition(talents) {
@@ -171,6 +171,15 @@ class Talent {
             callback(clone(this.#talents[id]), id);
     }
 
+    addLegendTalents(talents, talentList){
+      const newTalents = [...talents];
+      const legendTalents = talentList[3];
+      if(legendTalents){
+       const availableTalents = legendTalents.filter((legendTalent)=>(newTalents.findIndex(it=> it.id === legendTalent.id)===-1));
+       newTalents.splice(1,availableTalents.length,...availableTalents);
+      }
+      return newTalents;
+    }
 }
 
 export default Talent;
