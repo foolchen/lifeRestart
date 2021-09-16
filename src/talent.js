@@ -3,7 +3,8 @@ import { checkCondition, extractMaxTriggers } from "./functions/condition.js";
 import { clone, weightRandom } from "./functions/util.js";
 const VERSION_IMMORTALS = "immortals";
 const VERSION_MAGIC = "magic";
-const version = VERSION_MAGIC;
+
+window.talentVersion = "";
 class Talent {
   constructor() {}
 
@@ -170,9 +171,9 @@ class Talent {
   }
 
   addLegendTalents(talents, talentList) {
-    if (version === VERSION_IMMORTALS)
+    if (window.talentVersion === VERSION_IMMORTALS)
       return this.buildImmortalsTalents(talents, talentList[3]);
-    else if (version === VERSION_MAGIC)
+    else if (window.talentVersion === VERSION_MAGIC)
       return this.buildMagicTalents(talents, talentList[3]);
     return talents;
   }
